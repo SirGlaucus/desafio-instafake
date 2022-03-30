@@ -11,8 +11,8 @@
         event.preventDefault()
         const email = document.querySelector('#js-input-email').value
         const password = document.querySelector('#js-input-password').value
-        const jwt = await postData(email, password)
-        getFoto(jwt, pageNum)
+        await postData(email, password)
+        getFoto(pageNum)
         document.querySelector('#js-input-email').value = ''
         document.querySelector('#js-input-password').value = ''
     })
@@ -34,7 +34,8 @@
         }
     }
 
-    const getFoto = async (jwt, numeroPagina) => { // Con el JWT consumir la API http://localhost:3000/api/photos.
+    const getFoto = async (numeroPagina) => { // Con el JWT consumir la API http://localhost:3000/api/photos.
+        const jwt = localStorage.getItem('jwt-token')
         try {
             const response = await fetch(`http://localhost:3000/api/photos?page=${numeroPagina}`,
                 {
@@ -77,14 +78,14 @@
 
     masImagenesSelector.addEventListener('click', () => {
         pageNum++
-        getFoto(localStorage.getItem('jwt-token',), pageNum)
+        getFoto(pageNum)
     }) // En la parte inferior de la página, crear un botón que al presionarlo traiga más fotos(http://localhost:3000/api/photos?page=x)
     // que deben ser añadidas al listado existente.
 
     const iniciar = () => {
         const token = localStorage.getItem('jwt-token')
         if (token) {
-            getFoto(token, pageNum)
+            getFoto(pageNum)
         }
     }
     iniciar() // Cargar el feed de fotos cuando exista el JWT
