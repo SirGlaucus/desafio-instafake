@@ -36,7 +36,6 @@
 
     const getFoto = async (jwt, numeroPagina) => { // Con el JWT consumir la API http://localhost:3000/api/photos.
         try {
-            console.log(numeroPagina)
             const response = await fetch(`http://localhost:3000/api/photos?page=${numeroPagina}`,
                 {
                     method: 'GET',
@@ -45,7 +44,6 @@
                     }
                 })
             const { data } = await response.json()
-            console.log(data)
             if (data) {
                 contenedorImagenesSelector.setAttribute("style", "display: block")
                 formularioSelector.setAttribute("style", "display: none")
@@ -79,7 +77,6 @@
 
     masImagenesSelector.addEventListener('click', () => {
         pageNum++
-        console.log(pageNum)
         getFoto(localStorage.getItem('jwt-token',), pageNum)
     }) // En la parte inferior de la página, crear un botón que al presionarlo traiga más fotos(http://localhost:3000/api/photos?page=x)
     // que deben ser añadidas al listado existente.
